@@ -54,7 +54,7 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(2);
       //  XMLManager.Instance.Load();
         
-        HighScores.Instance.canvas.gameObject.SetActive(true);
+     //   HighScores.Instance.canvas.gameObject.SetActive(true);
     }
     // Update is called once per frame
     void Update()

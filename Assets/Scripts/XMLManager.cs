@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml.Serialization;
 using System.IO;
+using System.Xml;
+using System.Linq;
 public class XMLManager : MonoBehaviour
 {
     public static XMLManager Instance;
@@ -32,9 +34,40 @@ public class XMLManager : MonoBehaviour
     {
         leaderboard.list = scoresToSave;
         XmlSerializer serializer = new XmlSerializer(typeof(Leaderboard));
-        FileStream stream = new FileStream(Application.persistentDataPath + "/HighScores/highscores.xml", FileMode.Create);
+        if(!File.Exists(Application.persistentDataPath + "/HighScores/highscores.xml"))
+        {
+            FileStream stream = new FileStream(Application.persistentDataPath + "/HighScores/highscores.xml", FileMode.Create);
+            serializer.Serialize(stream, leaderboard);
+            stream.Close();
+        }
+        else
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Application.persistentDataPath + "/HighScores/highscores.xml");
+           // XmlNode list = doc.CreateNode(XmlNodeType.Element,"list",null);
+            XmlNode parentNode = doc.SelectSingleNode("Leaderboard/list");
+            XmlElement highScoreEntry = doc.CreateElement("HighScoreEntry");
+            parentNode.AppendChild(highScoreEntry);
+
+            XmlElement name = doc.CreateElement("name");
+            XmlElement score = doc.CreateElement("score");
+            name.InnerText = HighScores.Instance.best_Player_Name;
+            score.InnerText = (HighScores.Instance.best_Player_Score).ToString();
+           // parentNode.InsertAfter(highScoreEntry, parentNode.FirstChild);
+
+            highScoreEntry.AppendChild(name);
+            highScoreEntry.AppendChild(score);
+          //  doc.DocumentElement.AppendChild(highScoreEntry);
+          //  doc.DocumentElement.AppendChild(list);
+            doc.Save(Application.persistentDataPath + "/HighScores/highscores.xml");
+           /* FileStream stream = new FileStream(Application.persistentDataPath + "/HighScores/highscores.xml", FileMode.Append);
+            serializer.Serialize(stream, leaderboard);
+            stream.Close();
+           */
+        }
+       /* FileStream stream = new FileStream(Application.persistentDataPath + "/HighScores/highscores.xml", FileMode.Create);
         serializer.Serialize(stream, leaderboard);
-        stream.Close();
+        stream.Close();*/
     }
 
     public List<HighScoreEntry> LoadScores()

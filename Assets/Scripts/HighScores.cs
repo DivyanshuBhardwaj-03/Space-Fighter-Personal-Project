@@ -10,8 +10,8 @@ public class HighScores : MonoBehaviour
     public HighScoreDisplay[] highScoreDisplayArray;
     public Canvas canvas;
     List<HighScoreEntry> scores = new List<HighScoreEntry>();
-    private string best_Player_Name;
-    private int best_Player_Score;
+    public string best_Player_Name;
+    public int best_Player_Score;
     private string best_Player_Score_Text;
     private string[] splitString;
   //  public PlayerController playerController;
