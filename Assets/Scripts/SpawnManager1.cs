@@ -13,6 +13,7 @@ public class SpawnManager1 : MonoBehaviour
     private float ySpawn = 0.6f;
     private float zPowerupRange = -1.5f;
 
+    
     private float powerupSpawnTime = 10.0f;
     private float enemySpawnTime = 2.0f;
    // private float startDelay = 1.0f;
@@ -61,6 +62,10 @@ public class SpawnManager1 : MonoBehaviour
             Vector3 spawnPos = new Vector3(randomX, ySpawn, zPowerupRange);
 
             Instantiate(powerUp, spawnPos, powerUp.transform.rotation);
+            //  DetectCollision.DCInstance.powerUpTimer();
+           // DetectCollision.DCInstance.StartSelfDestruct();
+        }
+
         }
     }
-}
+

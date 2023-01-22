@@ -4,22 +4,32 @@ using UnityEngine;
 
 public class DetectCollision : MonoBehaviour
 {
+    public static DetectCollision DCInstance;
     private PlayerController playerController;
+    private float timeRemaining;
+    public bool timerIsRunning = false;
    
    // public int pointValue;
 
     // Start is called before the first frame update
     void Start()
     {
+       /* if (DCInstance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DCInstance = this;
+
+        DontDestroyOnLoad(gameObject);*/
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        
+       
+
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 
  /*   private void OnCollisionEnter(Collision collision)
     {
@@ -77,5 +87,47 @@ public class DetectCollision : MonoBehaviour
             //}
 
         }
+    }
+
+    public void StartSelfDestruct()
+    {
+        StartCoroutine(SelfDestruct());
+    }
+
+   IEnumerator SelfDestruct()
+    {
+       yield return new  WaitForSeconds(4f);
+        Destroy(gameObject);
+    }
+
+   public void powerUpTimer()
+    {
+         timeRemaining = 4.0f;
+         timerIsRunning = true;
+         while (timerIsRunning)
+         {
+             if (timeRemaining > 0)
+             {
+                 timeRemaining -= Time.deltaTime;
+
+             }
+             else
+             {
+                if (gameObject.CompareTag("Powerup"))
+                {
+                     Destroy(gameObject);
+                     timeRemaining = 0;
+                     timerIsRunning = false;
+                 }
+
+
+             }
+         }
+
+    }
+    // Update is called once per frame
+    private void Update()
+    {
+        
     }
 }
